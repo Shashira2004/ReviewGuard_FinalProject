@@ -1,4 +1,231 @@
+<!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ReviewGuard - Review Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .split {
+      height: 100vh;
+      width: 50%;
+      position: fixed;
+      top: 0;
+      overflow-x: hidden;
+    }
+
+    .left {
+      left: 0;
+      background-color: #f1f1f1;
+    }
+
+    .right {
+      right: 0;
+      background-color: #ffffff;
+    }
+
+    .centered {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    /* ✅ Mobile responsive stacking */
+    @media (max-width: 768px) {
+      .split {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .left, .right {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .centered {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        padding: 20px;
+      }
+
+      .btn-fixed-home {
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✅ Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+  <a class="navbar-brand" href="#">ReviewGuard</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/how-it-works">How It Works</a></li>
+      <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+      <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
+    </ul>
+    <div class="ml-auto">
+      <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
+      <a href="/register" class="btn btn-primary">Sign Up</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ Review Checker UI -->
+<div class="split left">
+  <div class="centered">
+    <img src="../static/logo/reviewguardlogo.png" alt="ReviewGuard Logo" style="max-width: 300px;">
+  </div>
+</div>
+
+<div class="split right">
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+      <div class="d-flex flex-column col-md-8">
+        <div>
+          <label for="">Real Reviews: {{ data.real }}</label>
+        </div>
+        <div>
+          <label for="">Fake Reviews: {{ data.fake }}</label>
+        </div>
+        <div class="my-3">
+          <form method="post">
+            <textarea name="text" placeholder="Paste your review here..."></textarea>
+            <input type="submit" class="btn btn-success" value="Check Review">
+          </form>
+        </div>
+
+        <div class="coment-bottom bg-white p-2 px-4">
+          {% for review in data.reviews %}
+          <hr />
+          <div class="commented-section mt-2">
+            <div class="text-nowrap bd-highlight"><span>{{ review }}</span></div>
+          </div>
+          <hr />
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ✅ Floating Home Button -->
+<a href="/" class="btn btn-secondary btn-fixed-home" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+  ← Home
+</a>
+
+</body>
+</html>
+
+
+
+
+<!-- <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}"></Link>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>App</title>
+</head>
+<body>
+
+
+
+    <div class="split left">
+        <div class="centered">
+            <img src="../static/logo/reviewguardlogo.png" alt="">
+        </div>
+    </div>
+
+
+    <div class="split right">
+        <div class="container mt-5 mb-5">
+            <div class="d-flex justify-content-center row">
+                <div class="d-flex flex-column col-md-8">
+                    <div>
+                        <label for="">Real Reviews : {{ data.real }}</label>
+                    </div>
+                    <div>
+                        <label for="">Fake Reviews : {{ data.fake }}</label>
+                    </div>
+                    <div>
+                        <form method="post">
+                          <textarea name="text"></textarea>
+                          <input type="submit">
+                        </form>
+                    </div>
+
+                    <div class="coment-bottom bg-white p-2 px-4">
+                        {% for review in data.reviews %}
+                        <hr/>
+                          <div
+                              class="commented-section mt-2">
+                              <div class="d-flex flex-row align-items-center commented-user">
+                                  </div>
+                                  <div class="text-nowrap bd-highlight"><span>{{ review }}</span></div>
+                                  <hr/>
+                        {% endfor %}
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,4 +276,4 @@
     </div>
 
 </body>
-</html>
+</html> -->

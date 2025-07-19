@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ReviewGuard - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}"> <!-- optional -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background-color: #f8f9fa;
+    }
+    .hero button {
+      padding: 15px 30px;
+      font-size: 20px;
+    }
+    .square-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 50px 0;
+    }
+    .square {
+      width: 250px;
+      height: 250px;
+      background: #007bff;
+      color: white;
+      margin: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .square:hover {
+      background: #0056b3;
+    }
+    .square i {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+    .navbar {
+      position: relative; /* Not sticky */
+    }
+  </style>
+  <!-- FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+    <a class="navbar-brand" href="#">ReviewGuard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/how-it-works">How It Works</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
+      </ul>
+      <div class="ml-auto">
+        <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
+        <a href="/register" class="btn btn-primary">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="mb-4">Welcome to ReviewGuard</h1>
+    <p class="mb-4">Detect fake reviews using AI in seconds</p>
+    <a href="/index" class="btn btn-success">Check Your Review</a>
+  </section>
+
+  <!-- Square Buttons Section -->
+  <div class="container text-center">
+    <div class="square-links">
+      <a href="/how-it-works" class="square">
+        <i class="fas fa-cogs"></i>
+        <h4>How It Works</h4>
+      </a>
+      <a href="/about" class="square">
+        <i class="fas fa-users"></i>
+        <h4>About Us</h4>
+      </a>
+      <a href="/contact" class="square">
+        <i class="fas fa-envelope"></i>
+        <h4>Contact Us</h4>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

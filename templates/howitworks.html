@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ReviewGuard - How It Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+  <style>
+    .fixed-home-btn {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #343a40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      margin: 0 auto 10px auto;
+    }
+    .step-box {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+    .step-box:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Home Button -->
+  <a href="/" class="btn btn-dark fixed-home-btn">← Home</a>
+
+  <!-- Main Content -->
+  <div class="container mt-5 pt-4">
+    <h2 class="text-center mb-4">How It Works</h2>
+    <div class="row">
+      <!-- Step 1 -->
+      <div class="col-md-4">
+        <div class="step-box text-center">
+          <div class="icon-circle">
+            🔍
+          </div>
+          <h5>1. Enter Your Review</h5>
+          <p>Provide the review of the product you want.</p>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="col-md-4">
+        <div class="step-box text-center">
+          <div class="icon-circle">
+            ✅
+          </div>
+          <h5>2. Analyze</h5>
+          <p>Our system processes the review and performs analysis.</p>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="col-md-4">
+        <div class="step-box text-center">
+          <div class="icon-circle">
+            🛡️
+          </div>
+          <h5>3. Get Results</h5>
+          <p>See if a review is fake or real, along with an accuracy score.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
