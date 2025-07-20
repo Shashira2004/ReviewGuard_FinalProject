@@ -32,6 +32,15 @@ def index():
 def how_it_works():
     return render_template('howitworks.html')
 
+@app.route('/about')
+def about():
+    return render_template('aboutus.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contactus.html')
+
+
 
 # ✅ Handle review form POST on /index
 @app.route('/index', methods=['POST'])
