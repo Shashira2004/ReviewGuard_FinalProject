@@ -2,6 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from helper import preprocessing, vectorizer, get_prediction
 from logger import logging
 
+import firebase_admin
+from firebase_admin import auth, credentials
+
+# Only do this once globally
+cred = credentials.Certificate("artifacts/reviewguard-310f6-firebase-adminsdk-fbsvc-7d1e2ee5d6.json")
+firebase_admin.initialize_app(cred)
+
 app = Flask(__name__)
 
 logging.info('Flask server started...')
@@ -35,6 +42,15 @@ def register():
 def login():
     return render_template('login.html')  # signin page
 
+@app.route('/login', methods=['POST'])
+def firebase_login():
+    id_token = request.form['idToken']  # get from client
+    decoded_token = auth.verify_id_token(id_token)
+    session['uid'] = decoded_token['uid']
+    session['is_admin'] = decoded_token.get('admin', False)
+    return redirect(url_for('home'))
+
+
 
 @app.route('/how-it-works')
 def how_it_works():
@@ -48,13 +64,53 @@ def about():
 def contact():
     return render_template('contactus.html')
 
-@app.route('/admin')
+# @app.route('/admin')
+# def admin_dashboard():
+#     if 'user' in session:
+#         id_token = session['user']['idToken']
+#         decoded_token = auth.verify_id_token(id_token)
+#         if decoded_token.get('admin'):
+#             return render_template('admin.html')
+#         else:
+#             return "Access Denied", 403
+#     return redirect(url_for('login'))
+
+
+@app.route('/admin', methods=['GET'])
 def admin_dashboard():
-    # Check if user is admin
-    if session.get('is_admin'):
-        return render_template('admin.html')
-    else:
-        return redirect(url_for('home'))  # redirect to home if not admin
+    if not session.get('is_admin'):
+        return redirect(url_for('home'))
+
+    # Fetch users from Firebase
+    all_users = []
+    page = auth.list_users()
+    while page:
+        for user in page.users:
+            is_admin = user.custom_claims.get('admin') if user.custom_claims else False
+            all_users.append({
+                'uid': user.uid,
+                'email': user.email,
+                'admin': is_admin
+            })
+        page = page.get_next_page()
+    
+    return render_template('admin.html', users=all_users)
+
+@app.route('/make-admin', methods=['POST'])
+def make_admin():
+    if not session.get('is_admin'):
+        return redirect(url_for('home'))
+    uid = request.form['uid']
+    auth.set_custom_user_claims(uid, {'admin': True})
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/delete-user', methods=['POST'])
+def delete_user():
+    if not session.get('is_admin'):
+        return redirect(url_for('home'))
+    uid = request.form['uid']
+    auth.delete_user(uid)
+    return redirect(url_for('admin_dashboard'))
 
 
 

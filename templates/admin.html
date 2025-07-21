@@ -8,6 +8,56 @@
   <div class="container mt-5">
     <h1>Welcome, Admin</h1>
     <p>Manage users and reports here.</p>
+
+    <table class="table table-bordered mt-4">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>UID</th>
+          <th>Is Admin</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.email }}</td>
+          <td>{{ user.uid }}</td>
+          <td>{{ 'Yes' if user.admin else 'No' }}</td>
+          <td>
+            {% if not user.admin %}
+            <form method="post" action="{{ url_for('make_admin') }}">
+              <input type="hidden" name="uid" value="{{ user.uid }}">
+              <button type="submit" class="btn btn-sm btn-warning">Make Admin</button>
+            </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('delete_user') }}" style="margin-top: 5px;">
+              <input type="hidden" name="uid" value="{{ user.uid }}">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </body>
 </html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Welcome, Admin</h1>
+    <p>Manage users and reports here.</p>
+  </div>
+</body>
+</html> -->

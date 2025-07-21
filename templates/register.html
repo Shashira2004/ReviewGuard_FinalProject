@@ -10,20 +10,21 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
+ 
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
-      authDomain: "reviewguard-310f6.firebaseapp.com",
-      projectId: "reviewguard-310f6",
-      storageBucket: "reviewguard-310f6.firebasestorage.app",
-      messagingSenderId: "1033181255442",
-      appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
-      measurementId: "G-W42WY0173Q"
-    };
+   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
+  authDomain: "reviewguard-310f6.firebaseapp.com",
+  projectId: "reviewguard-310f6",
+  storageBucket: "reviewguard-310f6.firebasestorage.app",
+  messagingSenderId: "1033181255442",
+  appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
+  measurementId: "G-W42WY0173Q"
+};
+
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
   </script>
 </head>
 <body class="bg-light">
@@ -47,21 +48,35 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById("register-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+<script>
+  document.getElementById("register-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          alert("Registration successful!");
-          window.location.href = "/login"; // redirect to login page
-        })
-        .catch((error) => {
-          alert(error.message);
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        return userCredential.user.getIdToken();
+      })
+      .then((idToken) => {
+        // Send idToken to backend Flask route
+        return fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: `idToken=${idToken}`
         });
-    });
-  </script>
+      })
+      .then(() => {
+        window.location.href = "/";  // redirect to home
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.error(error);
+      });
+  });
+</script>
+
 </body>
 </html>
