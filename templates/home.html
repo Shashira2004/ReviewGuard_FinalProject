@@ -53,6 +53,32 @@
   </style>
   <!-- FontAwesome for icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+  <!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+<!-- Firebase Authentication -->
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+<!-- Firebase Analytics (optional) -->
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
+    authDomain: "reviewguard-310f6.firebaseapp.com",
+    projectId: "reviewguard-310f6",
+    storageBucket: "reviewguard-310f6.firebasestorage.app",
+    messagingSenderId: "1033181255442",
+    appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
+    measurementId: "G-W42WY0173Q"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics(); // optional
+</script>
+
 </head>
 <body>
 
@@ -71,9 +97,16 @@
         <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
       </ul>
       <div class="ml-auto">
-        <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
-        <a href="/register" class="btn btn-primary">Sign Up</a>
-      </div>
+  <div id="auth-buttons">
+    <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
+    <a href="/register" class="btn btn-primary">Sign Up</a>
+  </div>
+  <div id="logout-section" style="display: none;">
+    <span id="user-email" class="mr-3 text-muted small"></span>
+    <button onclick="logout()" class="btn btn-danger">Logout</button>
+  </div>
+</div>
+
     </div>
   </nav>
 
@@ -105,5 +138,43 @@
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+  <script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Logged in as: ", user.email);
+    } else {
+      console.log("Not logged in");
+    }
+  });
+</script>
+
+<script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // User is logged in
+      document.getElementById("auth-buttons").style.display = "none";
+      document.getElementById("logout-section").style.display = "inline-block";
+      document.getElementById("user-email").textContent = user.email;
+    } else {
+      // User is not logged in
+      document.getElementById("auth-buttons").style.display = "inline-block";
+      document.getElementById("logout-section").style.display = "none";
+    }
+  });
+
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      alert("Logged out!");
+      window.location.reload(); // Reload the page to update UI
+    }).catch((error) => {
+      console.error("Logout error:", error);
+    });
+  }
+</script>
+
+
 </body>
 </html>

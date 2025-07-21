@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for, session
 from helper import preprocessing, vectorizer, get_prediction
 from logger import logging
 
@@ -27,6 +27,14 @@ def index():
     logging.info('===== Open Review Page =====')
     return render_template('index.html', data=data)
 
+@app.route('/register')
+def register():
+    return render_template('register.html')  # signup page
+
+@app.route('/login')
+def login():
+    return render_template('login.html')  # signin page
+
 
 @app.route('/how-it-works')
 def how_it_works():
@@ -39,6 +47,15 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contactus.html')
+
+@app.route('/admin')
+def admin_dashboard():
+    # Check if user is admin
+    if session.get('is_admin'):
+        return render_template('admin.html')
+    else:
+        return redirect(url_for('home'))  # redirect to home if not admin
+
 
 
 
