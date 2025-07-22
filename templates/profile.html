@@ -1,0 +1,120 @@
+<!-- templates/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Profile - ReviewGuard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+  />
+  <style>
+    #current-pic {
+      object-fit: cover;
+      width: 150px; /* bigger */
+      height: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>User Profile</h2>
+
+    <div class="text-center mb-4">
+      <img
+        id="current-pic"
+        src="/static/profile/profile.png"
+        alt="Profile Picture"
+        class="rounded-circle"
+        width="150"
+        height="150"
+      />
+    </div>
+
+    <form id="profile-form" class="mt-4">
+      <div class="form-group">
+        <label for="display-name">Name</label>
+        <input type="text" id="display-name" class="form-control" required />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="button" class="btn btn-danger ml-2" id="delete-account-btn">Delete Account</button>
+    </form>
+
+    <a href="/" class="btn btn-link mt-3">Back to Home</a>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
+      authDomain: "reviewguard-310f6.firebaseapp.com",
+      projectId: "reviewguard-310f6",
+      storageBucket: "reviewguard-310f6.appspot.com",
+      messagingSenderId: "1033181255442",
+      appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
+      measurementId: "G-W42WY0173Q",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "/login";
+        return;
+      }
+
+      // Set current name only
+      document.getElementById("display-name").value = user.displayName || "";
+
+      // Always show the static profile picture (ignore user.photoURL)
+      document.getElementById("current-pic").src = "/static/profile/profile.png";
+
+      // Handle form submission to update displayName only
+      document.getElementById("profile-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const newName = document.getElementById("display-name").value.trim();
+        if (!newName) {
+          alert("Name cannot be empty");
+          return;
+        }
+
+        try {
+          await user.updateProfile({ displayName: newName });
+          alert("Profile updated successfully!");
+          window.location.href = "/";
+        } catch (error) {
+          alert("Failed to update profile: " + error.message);
+        }
+      });
+
+      // Delete account button handler
+      document.getElementById("delete-account-btn").onclick = () => {
+        if (
+          confirm("Are you sure you want to delete your account? This cannot be undone.")
+        ) {
+          user
+            .delete()
+            .then(() => {
+              alert("Account deleted successfully!");
+              window.location.href = "/";
+            })
+            .catch((error) => {
+              if (error.code === "auth/requires-recent-login") {
+                alert("Please log out and log in again before deleting your account.");
+                auth.signOut().then(() => (window.location.href = "/login"));
+              } else {
+                alert("Failed to delete account: " + error.message);
+              }
+            });
+        }
+      };
+    });
+  </script>
+</body>
+</html>

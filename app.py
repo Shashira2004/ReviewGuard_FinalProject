@@ -190,6 +190,9 @@ def export_users_pdf():
     buffer.seek(0)
     return send_file(buffer, as_attachment=True, download_name="user_report.pdf", mimetype='application/pdf')
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 
 # ✅ Handle review form POST on /index

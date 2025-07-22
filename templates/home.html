@@ -101,9 +101,13 @@
     <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
     <a href="/register" class="btn btn-primary">Sign Up</a>
   </div>
-  <div id="logout-section" style="display: none;">
-    <span id="user-email" class="mr-3 text-muted small"></span>
-    <button onclick="logout()" class="btn btn-danger">Logout</button>
+  <div id="logout-section" style="display: none; align-items: center;">
+  <a href="/profile" id="profile-button" class="d-flex align-items-center text-decoration-none mr-3" style="cursor:pointer;">
+    <img id="user-photo-small" src="{{ url_for('static', filename='profile/profile.png') }}" alt="Profile Pic" class="rounded-circle" width="30" height="30" />
+    <span id="user-name-small" class="ml-2 text-muted small"></span>
+  </a>
+  <button onclick="logout()" class="btn btn-danger">Logout</button>
+  </div>
   </div>
 </div>
 
@@ -153,17 +157,24 @@
 
 <script>
   firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // User is logged in
-      document.getElementById("auth-buttons").style.display = "none";
-      document.getElementById("logout-section").style.display = "inline-block";
-      document.getElementById("user-email").textContent = user.email;
-    } else {
-      // User is not logged in
-      document.getElementById("auth-buttons").style.display = "inline-block";
-      document.getElementById("logout-section").style.display = "none";
-    }
-  });
+  if (user) {
+    document.getElementById("auth-buttons").style.display = "none";
+    document.getElementById("logout-section").style.display = "flex"; // use flex for alignment
+
+    // Show display name or email username if display name missing
+    const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "User");
+    document.getElementById("user-name-small").textContent = displayName;
+
+    
+
+
+
+  } else {
+    document.getElementById("auth-buttons").style.display = "inline-block";
+    document.getElementById("logout-section").style.display = "none";
+  }
+});
+
 
   function logout() {
     firebase.auth().signOut().then(() => {
