@@ -40,6 +40,9 @@ def home():
 # ✅ Serve the review checker page
 @app.route('/index')
 def index():
+    if 'uid' not in session:
+        return redirect(url_for('login'))
+
     data['reviews'] = reviews
     data['real'] = real
     data['fake'] = fake
@@ -47,13 +50,16 @@ def index():
     logging.info('===== Open Review Page =====')
     return render_template('index.html', data=data)
 
+
 @app.route('/register')
 def register():
     return render_template('register.html')  # signup page
 
 @app.route('/login')
 def login():
-    return render_template('login.html')  # signin page
+    next_page = request.args.get('next', '/')
+    return render_template('login.html', next=next_page)
+
 
 @app.route('/login', methods=['POST'])
 def firebase_login():
@@ -66,9 +72,12 @@ def firebase_login():
     is_admin = user.custom_claims.get('admin') if user.custom_claims else False
     session['is_admin'] = is_admin
 
+    next_page = request.form.get('next', url_for('home'))
+
     if is_admin:
         return redirect(url_for('admin_dashboard'))
-    return redirect(url_for('home'))
+    return redirect(next_page)
+
 
 
 @app.route('/logout')

@@ -118,7 +118,23 @@
   <section class="hero">
     <h1 class="mb-4">Welcome to ReviewGuard</h1>
     <p class="mb-4">Detect fake reviews using AI in seconds</p>
-    <a href="/index" class="btn btn-success">Check Your Review</a>
+    <button id="check-review-btn" class="btn btn-success">Check Your Review</button>
+
+<script>
+  document.getElementById("check-review-btn").addEventListener("click", function(e) {
+    e.preventDefault();
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // Logged in - go directly to review page
+        window.location.href = "/index";
+      } else {
+        // Not logged in - redirect to login with next param
+        window.location.href = "/login?next=/index";
+      }
+    });
+  });
+</script>
+
   </section>
 
   <!-- Square Buttons Section -->
