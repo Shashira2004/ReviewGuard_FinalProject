@@ -1,6 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from helper import preprocessing, vectorizer, get_prediction
 from logger import logging
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.platypus import Table, TableStyle
+from reportlab.lib.units import inch
+from flask import make_response
+
+
 
 import firebase_admin
 from firebase_admin import auth, credentials
@@ -10,6 +19,10 @@ cred = credentials.Certificate("artifacts/reviewguard-310f6-firebase-adminsdk-fb
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
+
+import os
+app.secret_key = os.urandom(24)
+
 
 logging.info('Flask server started...')
 
@@ -44,12 +57,24 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def firebase_login():
-    id_token = request.form['idToken']  # get from client
+    id_token = request.form['idToken']
     decoded_token = auth.verify_id_token(id_token)
-    session['uid'] = decoded_token['uid']
-    session['is_admin'] = decoded_token.get('admin', False)
+    uid = decoded_token['uid']
+    session['uid'] = uid
+
+    user = auth.get_user(uid)
+    is_admin = user.custom_claims.get('admin') if user.custom_claims else False
+    session['is_admin'] = is_admin
+
+    if is_admin:
+        return redirect(url_for('admin_dashboard'))
     return redirect(url_for('home'))
 
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))  # or whatever your home route is
 
 
 @app.route('/how-it-works')
@@ -112,6 +137,58 @@ def delete_user():
     auth.delete_user(uid)
     return redirect(url_for('admin_dashboard'))
 
+def get_all_users():
+    users = []
+    page = auth.list_users()
+    while page:
+        for user in page.users:
+            users.append({
+                'email': user.email,
+                'uid': user.uid,
+                'admin': user.custom_claims.get('admin', False) if user.custom_claims else False
+            })
+        page = page.get_next_page()
+    return users
+
+
+@app.route('/export_users_pdf')
+def export_users_pdf():
+    from io import BytesIO
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib import colors
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.lib.units import inch
+
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+
+    styles = getSampleStyleSheet()
+    title = Paragraph("<b>Review Guard User Details</b>", styles['Title'])
+    spacer = Spacer(1, 0.25 * inch)
+
+    users = get_all_users()
+    data = [['Email', 'UID', 'Admin']] + [
+        [user['email'], user['uid'], 'Yes' if user['admin'] else 'No'] for user in users
+    ]
+
+    table = Table(data, colWidths=[2.5*inch, 2.5*inch, 1*inch])
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ])
+    table.setStyle(style)
+
+    elements = [title, spacer, table]
+    doc.build(elements)
+
+    buffer.seek(0)
+    return send_file(buffer, as_attachment=True, download_name="user_report.pdf", mimetype='application/pdf')
 
 
 

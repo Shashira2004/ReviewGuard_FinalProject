@@ -55,21 +55,34 @@
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        alert("Login successful!");
         const user = userCredential.user;
-        
-        // Redirect based on email (you can replace this with any other logic for admin check)
-        if (user.email === "admin@reviewguard.com") {
-          window.location.href = "/admin"; // redirect to admin dashboard
-        } else {
-          window.location.href = "/"; // redirect to normal user dashboard
-        }
+
+        // 🔐 Fetch the custom claims from ID token
+        return user.getIdTokenResult();
+      })
+      .then((idTokenResult) => {
+        // ✅ Send ID token to Flask backend
+        const idToken = idTokenResult.token;
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/login";
+
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "idToken";
+        hiddenInput.value = idToken;
+        form.appendChild(hiddenInput);
+
+        document.body.appendChild(form);
+        form.submit(); // secure redirect to backend for admin check
       })
       .catch((error) => {
         alert(error.message);
+        console.error(error);
       });
   });
 </script>
+
 
 </body>
 </html>

@@ -6,6 +6,13 @@
 </head>
 <body>
   <div class="container mt-5">
+
+    <div class="text-right">
+  <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+</div>
+
+
+
     <h1>Welcome, Admin</h1>
     <p>Manage users and reports here.</p>
 
@@ -40,6 +47,8 @@
         {% endfor %}
       </tbody>
     </table>
+    <a href="{{ url_for('export_users_pdf') }}" class="btn btn-outline-primary mt-3">Export as PDF</a>
+
   </div>
 </body>
 </html>
@@ -47,17 +56,3 @@
 
 
 
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-</head>
-<body>
-  <div class="container mt-5">
-    <h1>Welcome, Admin</h1>
-    <p>Manage users and reports here.</p>
-  </div>
-</body>
-</html> -->
