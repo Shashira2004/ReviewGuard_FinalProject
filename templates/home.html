@@ -12,118 +12,134 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+ <style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
 
-    .navbar {
-      background-color: #111;
-      border-bottom: 1px solid #333;
-    }
+  .navbar {
+    background-color: #111;
+    border-bottom: 1px solid #333;
+  }
 
-    .navbar-brand,
-    .nav-link {
-      color: #fff !important;
-    }
+  .navbar-brand,
+  .nav-link {
+    color: #fff !important;
+  }
 
-    .nav-link:hover {
-      color: #0f0 !important;
-    }
+  .nav-link:hover {
+    color: #0f0 !important;
+  }
 
-    .hero {
-      text-align: center;
-      padding: 80px 20px 40px;
-    }
+  .navbar-toggler-icon {
+    background-color: #0f0 !important;
+  }
 
-    .hero img {
-      max-width: 180px;
-      margin-bottom: 20px;
-    }
+  .hero {
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
 
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
+  .hero img {
+    max-width: 180px;
+    margin-bottom: 20px;
+  }
 
-    .hero p {
-      font-size: 1.2rem;
-      color: #ccc;
-      margin-bottom: 30px;
-    }
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
 
-    .hero button {
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      color: #000;
-      background-color: #fff;
-      border: none;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
+  .hero p {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 30px;
+  }
 
-    .hero button:hover {
-      background-color: #0f0;
-      color: #000;
-    }
+  .hero button {
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    color: #0f0;
+    background-color: #111;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
 
-    .square-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 40px 0;
-    }
+  .hero button:hover {
+    background-color: #0f0;
+    color: #000;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+  }
 
-    .square {
-      width: 220px;
-      height: 220px;
-      background-color: #fff;
-      color: #000;
-      margin: 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
+  .square-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px 0;
+  }
 
-    .square:hover {
-      background-color: #0f0;
-      color: #000;
-    }
+  .square {
+    width: 220px;
+    height: 220px;
+    background-color: #111;
+    color: #0f0;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid #0f0;
+    transition: all 0.3s ease;
+  }
 
-    .square i {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
+  .square:hover {
+    background-color: #0f0;
+    color: #000;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+  }
 
-    .btn-outline-primary,
-    .btn-primary {
-      transition: all 0.3s ease;
-    }
+  .square i {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
 
-    .btn-outline-primary:hover {
-      background-color: #fff;
-      color: #000;
-    }
+  .btn-outline-primary {
+    color: #0f0;
+    border-color: #0f0;
+    transition: all 0.3s ease;
+  }
 
-    .btn-primary:hover {
-      background-color: #0f0;
-      color: #000;
-      border: none;
-    }
+  .btn-outline-primary:hover {
+    background-color: #0f0;
+    color: #000;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+  }
 
-    #logout-section img {
-      object-fit: cover;
-    }
+  .btn-primary {
+    background-color: #0f0;
+    border-color: #0f0;
+    color: #000;
+    transition: all 0.3s ease;
+  }
 
-  </style>
+  .btn-primary:hover {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+  }
+
+  #logout-section img {
+    object-fit: cover;
+  }
+</style>
+
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>

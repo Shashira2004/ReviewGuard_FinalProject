@@ -7,6 +7,83 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
 
+
+<style>
+  body {
+    background-color: #000; /* Full black */
+    color: #fff; /* White text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  h2 {
+    color: #00ff88;
+    font-weight: bold;
+  }
+
+  .btn-outline-secondary {
+    background-color: #000;
+    color: #00ff88;
+    border: 1px solid #00ff88;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-secondary:hover {
+    background-color: #00ff88;
+    color: #000;
+    transform: scale(1.05);
+  }
+
+  .form-control {
+    background-color: #111; /* dark input field */
+    color: #fff;
+    border: 1px solid #00ff88;
+    transition: all 0.3s ease;
+  }
+
+  .form-control::placeholder {
+    color: #ccc;
+  }
+
+  .form-control:focus {
+    background-color: #111;
+    border-color: #00ff88;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+  }
+
+  .btn-success,
+  .btn-primary {
+    background-color: #00ff88;
+    color: #000;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover,
+  .btn-primary:hover {
+    background-color: #00cc77;
+    transform: scale(1.05);
+  }
+
+  label {
+    color: #eee;
+  }
+
+  a {
+    color: #00ff88;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #66ffc2;
+    text-decoration: underline;
+  }
+</style>
+
+
+
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
@@ -26,7 +103,7 @@
     firebase.analytics();
   </script>
 </head>
-<body class="bg-light">
+<body>
   <a href="/" class="btn btn-sm btn-outline-secondary" style="position: fixed; top: 15px; right: 15px; z-index: 1000;">
   ← Home
 </a>
