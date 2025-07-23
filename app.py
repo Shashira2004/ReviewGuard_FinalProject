@@ -38,22 +38,19 @@ def home():
     return render_template('home.html')  # <-- Make sure this file exists
 
 # ✅ Serve the review checker page
-
 @app.route('/index')
 def index():
     if 'uid' not in session:
         return redirect(url_for('login'))
 
-    total = real + fake
-    real_percent = round((real / total) * 100) if total else 0
-    fake_percent = round((fake / total) * 100) if total else 0
-
-    data['reviews'] = reviews
-    data['real'] = real
-    data['fake'] = fake
-    data['real_percent'] = real_percent
-    data['fake_percent'] = fake_percent
-
+    # Empty screen initially
+    data = {
+        'reviews': [],
+        'real': 0,
+        'fake': 0,
+        'real_percent': 0,
+        'fake_percent': 0
+    }
     return render_template('index.html', data=data)
 
 # @app.route('/index')
@@ -222,9 +219,11 @@ def profile():
     return render_template('profile.html')
 
 
-# ✅ Handle review form POST on /index
 @app.route('/index', methods=['POST'])
 def handle_post():
+    if 'uid' not in session:
+        return redirect(url_for('login'))
+
     text = request.form['text']
     logging.info(f'Text : {text}')
 
@@ -237,14 +236,27 @@ def handle_post():
     prediction = get_prediction(vectorized_txt)
     logging.info(f'Prediction : {prediction}')
 
-    global real, fake
+    # New variables for just current review
     if prediction == 'fake':
-        fake += 1
+        real_count = 0
+        fake_count = 1
     else:
-        real += 1
+        real_count = 1
+        fake_count = 0
 
-    reviews.insert(0, text)
-    return redirect('/index')  # redirect back to review page after POST
+    total = real_count + fake_count
+    real_percent = round((real_count / total) * 100)
+    fake_percent = round((fake_count / total) * 100)
+
+    data = {
+        'reviews': [text],
+        'real': real_count,
+        'fake': fake_count,
+        'real_percent': real_percent,
+        'fake_percent': fake_percent
+    }
+
+    return render_template('index.html', data=data)
 
 if __name__ == '__main__':
     app.run()
