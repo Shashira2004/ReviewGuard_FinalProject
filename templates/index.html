@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>ReviewGuard - Review Checker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 
@@ -47,7 +46,37 @@
       resize: none;
     }
 
-    /* Mobile responsive stacking */
+    .bar-meter {
+      width: 100%;
+      height: 30px;
+      background-color: #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      margin-top: 20px;
+      box-shadow: inset 0 0 5px #aaa;
+    }
+
+    .bar-real {
+      background-color: #4caf50;
+      height: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 30px;
+    }
+
+    .bar-fake {
+      background-color: #f44336;
+      height: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 30px;
+    }
+
     @media (max-width: 768px) {
       .split {
         position: relative;
@@ -55,8 +84,7 @@
         height: auto;
       }
 
-      .left,
-      .right {
+      .left, .right {
         position: relative;
         width: 100%;
         height: auto;
@@ -78,15 +106,11 @@
       }
     }
   </style>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel@1.0.3/dist/chartjs-plugin-doughnutlabel.min.js"></script>
 </head>
 
 <body>
 
-  <!-- Hidden container to hold Flask data for JS -->
-<div id="data-holder" data-real="{{ data.real_percent }}" data-fake="{{ data.fake_percent }}" style="display:none;"></div>
+  <div id="data-holder" data-real="{{ data.real_percent }}" data-fake="{{ data.fake_percent }}" style="display:none;"></div>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
@@ -94,7 +118,6 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -122,8 +145,7 @@
         <div class="d-flex flex-column col-md-8">
           <div class="text-center my-4">
             <h5>Review Prediction Meter</h5>
-            <!-- IMPORTANT: Use <canvas> for Chart.js -->
-            <canvas id="gaugeChart" style="width: 300px; height: 160px; margin: auto;"></canvas>
+            <div class="bar-meter" id="barMeter"></div>
             <div class="mt-2">
               <small class="text-success">{{ data.real_percent }}% Real</small> |
               <small class="text-danger">{{ data.fake_percent }}% Fake</small>
@@ -155,69 +177,32 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Floating Home Button -->
-  <a
-    href="/"
-    class="btn btn-secondary btn-fixed-home"
-    style="position: fixed; top: 20px; right: 20px; z-index: 1000"
-    >← Home</a
-  >
+  <!-- Home Button -->
+  <a href="/" class="btn btn-secondary btn-fixed-home" style="position: fixed; top: 20px; right: 20px; z-index: 1000">← Home</a>
 
-  <!-- Chart.js half circle gauge -->
-  window.addEventListener('DOMContentLoaded', () => {
-  // Get data from hidden div attributes (strings)
-  const dataHolder = document.getElementById('data-holder');
-  const real = Number(dataHolder.dataset.real) || 0;
-  const fake = Number(dataHolder.dataset.fake) || 0;
+  <!-- Bar Meter Script -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const dataHolder = document.getElementById('data-holder');
+      const real = parseFloat(dataHolder.dataset.real) || 0;
+      const fake = parseFloat(dataHolder.dataset.fake) || 0;
 
-  const ctx = document.getElementById('gaugeChart').getContext('2d');
+      const barMeter = document.getElementById('barMeter');
 
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Real', 'Fake'],
-      datasets: [{
-        data: [real, fake],
-        backgroundColor: ['#4caf50', '#f44336'],
-        borderWidth: 0,
-      }]
-    },
-    options: {
-      rotation: -Math.PI,    // start at 180°
-      circumference: Math.PI, // half circle
-      cutout: '70%',
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return `${context.label}: ${context.parsed}%`;
-            }
-          }
-        },
-        doughnutlabel: {
-          labels: [
-            {
-              text: `${real}%`,
-              font: { size: 20, weight: 'bold' },
-              color: real >= 50 ? '#4caf50' : '#f44336',
-            },
-            {
-              text: 'Real',
-              font: { size: 12 }
-            }
-          ]
-        }
+      if (real === 100) {
+        barMeter.innerHTML = `<div class="bar-real" style="width: 100%">100% Real</div>`;
+      } else if (fake === 100) {
+        barMeter.innerHTML = `<div class="bar-fake" style="width: 100%">100% Fake</div>`;
+      } else {
+        barMeter.innerHTML = `
+          <div class="bar-real" style="width: ${real}%">${real}%</div>
+          <div class="bar-fake" style="width: ${fake}%">${fake}%</div>
+        `;
       }
-    }
-  });
-});
-
+    });
   </script>
 </body>
 </html>
-
-
 
 
 
