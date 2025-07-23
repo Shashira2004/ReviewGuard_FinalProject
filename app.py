@@ -38,17 +38,35 @@ def home():
     return render_template('home.html')  # <-- Make sure this file exists
 
 # ✅ Serve the review checker page
+
 @app.route('/index')
 def index():
     if 'uid' not in session:
         return redirect(url_for('login'))
 
+    total = real + fake
+    real_percent = round((real / total) * 100) if total else 0
+    fake_percent = round((fake / total) * 100) if total else 0
+
     data['reviews'] = reviews
     data['real'] = real
     data['fake'] = fake
+    data['real_percent'] = real_percent
+    data['fake_percent'] = fake_percent
 
-    logging.info('===== Open Review Page =====')
     return render_template('index.html', data=data)
+
+# @app.route('/index')
+# def index():
+#     if 'uid' not in session:
+#         return redirect(url_for('login'))
+
+#     data['reviews'] = reviews
+#     data['real'] = real
+#     data['fake'] = fake
+
+#     logging.info('===== Open Review Page =====')
+#     return render_template('index.html', data=data)
 
 
 @app.route('/register')
