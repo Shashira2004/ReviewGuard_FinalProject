@@ -7,105 +7,197 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease;
+  }
 
+  .navbar {
+    background-color: #111 !important;
+    border-bottom: 1px solid #333;
+  }
+
+  .navbar-brand,
+  .nav-link {
+    color: #fff !important;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #0f0 !important;
+  }
+
+  .btn-outline-primary {
+    border-color: #0f0 !important;
+    color: #0f0 !important;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #0f0 !important;
+    color: #000 !important;
+  }
+
+  .btn-primary {
+    background-color: #0f0 !important;
+    border-color: #0f0 !important;
+    color: #000 !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0c0 !important;
+    color: #fff !important;
+  }
+
+  .split {
+    height: 100vh;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    overflow-x: hidden;
+  }
+
+  .left {
+    left: 0;
+    background-color: #111;
+  }
+
+  .right {
+    right: 0;
+    background-color: #000;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+    background-color: #111;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+  }
+
+  textarea::placeholder {
+    color: #666;
+  }
+
+  .btn-success {
+    background-color: #0f0 !important;
+    border: none;
+    color: #000 !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    background-color: #0c0 !important;
+    color: #fff !important;
+  }
+
+  .bar-meter {
+    width: 100%;
+    height: 30px;
+    background-color: #222;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    margin-top: 20px;
+    box-shadow: inset 0 0 8px #0f0;
+    transition: all 0.4s ease;
+  }
+
+  .bar-real {
+    background-color: #0f0;
+    height: 100%;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 30px;
+    transition: width 0.5s ease;
+  }
+
+  .bar-fake {
+    background-color: #f44336;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 30px;
+    transition: width 0.5s ease;
+  }
+
+  .coment-bottom {
+    background-color: #111;
+    color: #ccc;
+    border-radius: 8px;
+  }
+
+  hr {
+    border-color: #333;
+  }
+
+  .btn-fixed-home {
+    background-color: #222;
+    color: #0f0;
+    border: 1px solid #0f0;
+    transition: all 0.3s ease;
+  }
+
+  .btn-fixed-home:hover {
+    background-color: #0f0;
+    color: #000;
+  }
+
+  @media (max-width: 768px) {
     .split {
-      height: 100vh;
-      width: 50%;
-      position: fixed;
-      top: 0;
-      overflow-x: hidden;
+      position: relative;
+      width: 100%;
+      height: auto;
     }
 
-    .left {
-      left: 0;
-      background-color: #f1f1f1;
-    }
-
-    .right {
-      right: 0;
-      background-color: #ffffff;
+    .left, .right {
+      position: relative;
+      width: 100%;
+      height: auto;
     }
 
     .centered {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      padding: 20px;
     }
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      padding: 10px;
-      margin-bottom: 10px;
-      resize: none;
-    }
-
-    .bar-meter {
-      width: 100%;
-      height: 30px;
-      background-color: #ddd;
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-      margin-top: 20px;
-      box-shadow: inset 0 0 5px #aaa;
-    }
-
-    .bar-real {
-      background-color: #4caf50;
-      height: 100%;
-      text-align: center;
-      color: white;
-      font-weight: bold;
+    .btn-fixed-home {
+      top: 10px;
+      right: 10px;
       font-size: 14px;
-      line-height: 30px;
+      padding: 6px 12px;
     }
+  }
+</style>
 
-    .bar-fake {
-      background-color: #f44336;
-      height: 100%;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      line-height: 30px;
-    }
 
-    @media (max-width: 768px) {
-      .split {
-        position: relative;
-        width: 100%;
-        height: auto;
-      }
-
-      .left, .right {
-        position: relative;
-        width: 100%;
-        height: auto;
-      }
-
-      .centered {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        padding: 20px;
-      }
-
-      .btn-fixed-home {
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-    }
-  </style>
 </head>
 
 <body>

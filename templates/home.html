@@ -4,89 +4,153 @@
   <meta charset="UTF-8">
   <title>ReviewGuard - Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}"> <!-- optional -->
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
   <style>
     body {
-      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
     }
+
+    .navbar {
+      background-color: #111;
+      border-bottom: 1px solid #333;
+    }
+
+    .navbar-brand,
+    .nav-link {
+      color: #fff !important;
+    }
+
+    .nav-link:hover {
+      color: #0f0 !important;
+    }
+
     .hero {
       text-align: center;
-      padding: 100px 20px;
-      background-color: #f8f9fa;
+      padding: 80px 20px 40px;
     }
+
+    .hero img {
+      max-width: 180px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
     .hero button {
-      padding: 15px 30px;
-      font-size: 20px;
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      color: #000;
+      background-color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
     }
+
+    .hero button:hover {
+      background-color: #0f0;
+      color: #000;
+    }
+
     .square-links {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      margin: 50px 0;
+      padding: 40px 0;
     }
+
     .square {
-      width: 250px;
-      height: 250px;
-      background: #007bff;
-      color: white;
+      width: 220px;
+      height: 220px;
+      background-color: #fff;
+      color: #000;
       margin: 15px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      border-radius: 10px;
+      align-items: center;
+      border-radius: 12px;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
+
     .square:hover {
-      background: #0056b3;
+      background-color: #0f0;
+      color: #000;
     }
+
     .square i {
-      font-size: 50px;
+      font-size: 48px;
       margin-bottom: 10px;
     }
-    .navbar {
-      position: relative; /* Not sticky */
+
+    .btn-outline-primary,
+    .btn-primary {
+      transition: all 0.3s ease;
     }
+
+    .btn-outline-primary:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background-color: #0f0;
+      color: #000;
+      border: none;
+    }
+
+    #logout-section img {
+      object-fit: cover;
+    }
+
   </style>
-  <!-- FontAwesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
 
-  <!-- Firebase App (the core Firebase SDK) -->
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-<!-- Firebase Authentication -->
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
-<!-- Firebase Analytics (optional) -->
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics-compat.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
-    authDomain: "reviewguard-310f6.firebaseapp.com",
-    projectId: "reviewguard-310f6",
-    storageBucket: "reviewguard-310f6.firebasestorage.app",
-    messagingSenderId: "1033181255442",
-    appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
-    measurementId: "G-W42WY0173Q"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics(); // optional
-</script>
-
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDp0j_LBAC6Zkys6eK4sPYf4IOnfrg_a3o",
+      authDomain: "reviewguard-310f6.firebaseapp.com",
+      projectId: "reviewguard-310f6",
+      storageBucket: "reviewguard-310f6.firebasestorage.app",
+      messagingSenderId: "1033181255442",
+      appId: "1:1033181255442:web:c8a537ab393f5aa640c5cb",
+      measurementId: "G-W42WY0173Q"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+  <nav class="navbar navbar-expand-lg px-4">
     <a class="navbar-brand" href="#">ReviewGuard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon bg-light"></span>
     </button>
 
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
@@ -96,48 +160,29 @@
         <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
         <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
       </ul>
-      <div class="ml-auto">
-  <div id="auth-buttons">
-    <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
-    <a href="/register" class="btn btn-primary">Sign Up</a>
-  </div>
-  <div id="logout-section" style="display: none; align-items: center;">
-  <a href="/profile" id="profile-button" class="d-flex align-items-center text-decoration-none mr-3" style="cursor:pointer;">
-    <img id="user-photo-small" src="{{ url_for('static', filename='profile/profile.png') }}" alt="Profile Pic" class="rounded-circle" width="30" height="30" />
-    <span id="user-name-small" class="ml-2 text-muted small"></span>
-  </a>
-  <button onclick="logout()" class="btn btn-danger">Logout</button>
-  </div>
-  </div>
-</div>
-
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-outline-primary mr-2">Sign In</a>
+        <a href="/register" class="btn btn-primary">Sign Up</a>
+      </div>
+      <div id="logout-section" class="d-none align-items-center">
+        <a href="/profile" id="profile-button" class="d-flex align-items-center text-white mr-3">
+          <img id="user-photo-small" src="{{ url_for('static', filename='profile/profile.png') }}" alt="Profile Pic" class="rounded-circle" width="30" height="30" />
+          <span id="user-name-small" class="ml-2 small text-light"></span>
+        </a>
+        <button onclick="logout()" class="btn btn-danger">Logout</button>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero">
-    <h1 class="mb-4">Welcome to ReviewGuard</h1>
-    <p class="mb-4">Detect fake reviews using AI in seconds</p>
-    <button id="check-review-btn" class="btn btn-success">Check Your Review</button>
-
-<script>
-  document.getElementById("check-review-btn").addEventListener("click", function(e) {
-    e.preventDefault();
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // Logged in - go directly to review page
-        window.location.href = "/index";
-      } else {
-        // Not logged in - redirect to login with next param
-        window.location.href = "/login?next=/index";
-      }
-    });
-  });
-</script>
-
+    <img src="{{ url_for('static', filename='logo/reviewguardlogo.png') }}" alt="ReviewGuard Logo">
+    <h1>Welcome to ReviewGuard</h1>
+    <p>Detect fake reviews using AI in seconds</p>
+    <button id="check-review-btn">Check Your Review</button>
   </section>
 
-  <!-- Square Buttons Section -->
+  <!-- Squares -->
   <div class="container text-center">
     <div class="square-links">
       <a href="/how-it-works" class="square">
@@ -155,53 +200,44 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
   <script>
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log("Logged in as: ", user.email);
-    } else {
-      console.log("Not logged in");
-    }
-  });
-</script>
-
-<script>
-  firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    document.getElementById("auth-buttons").style.display = "none";
-    document.getElementById("logout-section").style.display = "flex"; // use flex for alignment
-
-    // Show display name or email username if display name missing
-    const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "User");
-    document.getElementById("user-name-small").textContent = displayName;
-
-    
-
-
-
-  } else {
-    document.getElementById("auth-buttons").style.display = "inline-block";
-    document.getElementById("logout-section").style.display = "none";
-  }
-});
-
-
-  function logout() {
-    firebase.auth().signOut().then(() => {
-      alert("Logged out!");
-      window.location.reload(); // Reload the page to update UI
-    }).catch((error) => {
-      console.error("Logout error:", error);
+    document.getElementById("check-review-btn").addEventListener("click", function (e) {
+      e.preventDefault();
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          window.location.href = "/index";
+        } else {
+          window.location.href = "/login?next=/index";
+        }
+      });
     });
-  }
-</script>
 
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById("auth-buttons").style.display = "none";
+        document.getElementById("logout-section").classList.remove("d-none");
+
+        const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "User");
+        document.getElementById("user-name-small").textContent = displayName;
+      } else {
+        document.getElementById("auth-buttons").style.display = "inline-block";
+        document.getElementById("logout-section").classList.add("d-none");
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(() => {
+        alert("Logged out!");
+        window.location.reload();
+      }).catch((error) => {
+        console.error("Logout error:", error);
+      });
+    }
+  </script>
 
 </body>
 </html>
