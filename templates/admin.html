@@ -109,7 +109,33 @@
         {% endfor %}
       </tbody>
     </table>
-    <a href="{{ url_for('export_users_pdf') }}" class="btn btn-outline-primary mt-3">Export as PDF</a>
+
+     <a href="{{ url_for('export_users_pdf') }}" class="btn btn-outline-primary mt-3">Export User details as PDF</a>
+
+    <h2 class="mt-5">Contact Messages</h2>
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for msg in messages %}
+        <tr>
+          <td>{{ msg.name }}</td>
+          <td>{{ msg.email }}</td>
+          <td>{{ msg.message }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{{ url_for('export_messages_pdf') }}" class="btn btn-outline-primary mt-3">Export Messages as PDF</a>
+
+
+    
 
   </div>
 </body>
