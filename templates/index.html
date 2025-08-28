@@ -273,152 +273,22 @@
   <a href="/" class="btn btn-secondary btn-fixed-home" style="position: fixed; top: 20px; right: 20px; z-index: 1000">← Home</a>
 
   <!-- Bar Meter Script -->
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const dataHolder = document.getElementById('data-holder');
-      const real = parseFloat(dataHolder.dataset.real) || 0;
-      const fake = parseFloat(dataHolder.dataset.fake) || 0;
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const dataHolder = document.getElementById('data-holder');
+  const real = parseFloat(dataHolder.dataset.real) || 0;
+  const fake = parseFloat(dataHolder.dataset.fake) || 0;
 
-      const barMeter = document.getElementById('barMeter');
-
-      if (real === 100) {
-        barMeter.innerHTML = `<div class="bar-real" style="width: 100%">100% Real</div>`;
-      } else if (fake === 100) {
-        barMeter.innerHTML = `<div class="bar-fake" style="width: 100%">100% Fake</div>`;
-      } else {
-        barMeter.innerHTML = `
-          <div class="bar-real" style="width: ${real}%">${real}%</div>
-          <div class="bar-fake" style="width: ${fake}%">${fake}%</div>
-        `;
-      }
-    });
-  </script>
-</body>
-</html>
-
-
-
-<!-- <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}"></Link>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>App</title>
-</head>
-<body>
-
-
-
-    <div class="split left">
-        <div class="centered">
-            <img src="../static/logo/reviewguardlogo.png" alt="">
-        </div>
-    </div>
-
-
-    <div class="split right">
-        <div class="container mt-5 mb-5">
-            <div class="d-flex justify-content-center row">
-                <div class="d-flex flex-column col-md-8">
-                    <div>
-                        <label for="">Real Reviews : {{ data.real }}</label>
-                    </div>
-                    <div>
-                        <label for="">Fake Reviews : {{ data.fake }}</label>
-                    </div>
-                    <div>
-                        <form method="post">
-                          <textarea name="text"></textarea>
-                          <input type="submit">
-                        </form>
-                    </div>
-
-                    <div class="coment-bottom bg-white p-2 px-4">
-                        {% for review in data.reviews %}
-                        <hr/>
-                          <div
-                              class="commented-section mt-2">
-                              <div class="d-flex flex-row align-items-center commented-user">
-                                  </div>
-                                  <div class="text-nowrap bd-highlight"><span>{{ review }}</span></div>
-                                  <hr/>
-                        {% endfor %}
-                      </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  const barMeter = document.getElementById('barMeter');
+  barMeter.innerHTML = `
+    <div class="bar-real" style="width: ${real}%">${real.toFixed(1)}% Real</div>
+    <div class="bar-fake" style="width: ${fake}%">${fake.toFixed(1)}% Fake</div>
+  `;
+});
+</script>
 
 </body>
 </html>
- -->
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}"></Link>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>App</title>
-</head>
-<body>
-
-    <div class="split left">
-        <div class="centered">
-            <img src="../static/logo/reviewguardlogo.png" alt="">
-        </div>
-    </div>
-
-
-    <div class="split right">
-        <div class="container mt-5 mb-5">
-            <div class="d-flex justify-content-center row">
-                <div class="d-flex flex-column col-md-8">
-                    <div>
-                        <label for="">Real Reviews : {{ data.real }}</label>
-                    </div>
-                    <div>
-                        <label for="">Fake Reviews : {{ data.fake }}</label>
-                    </div>
-                    <div>
-                        <form method="post">
-                          <textarea name="text"></textarea>
-                          <input type="submit">
-                        </form>
-                    </div>
-
-                    <div class="coment-bottom bg-white p-2 px-4">
-                        {% for review in data.reviews %}
-                        <hr/>
-                          <div
-                              class="commented-section mt-2">
-                              <div class="d-flex flex-row align-items-center commented-user">
-                                  </div>
-                                  <div class="text-nowrap bd-highlight"><span>{{ review }}</span></div>
-                                  <hr/>
-                        {% endfor %}
-                      </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html> -->

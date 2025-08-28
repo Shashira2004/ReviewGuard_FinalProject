@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file
-from helper import preprocessing, vectorizer, get_prediction
+from helper import preprocessing, vectorizer, get_prediction_prob
 from logger import logging
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
@@ -90,32 +90,50 @@ def home():
 
 
 # ✅ Serve the review checker page
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'uid' not in session:
         return redirect(url_for('login'))
 
-    # Empty screen initially
-    data = {
-        'reviews': [],
-        'real': 0,
-        'fake': 0,
-        'real_percent': 0,
-        'fake_percent': 0
-    }
+    if request.method == 'POST':
+        # POST logic
+        text = request.form['text']
+        logging.info(f'Text : {text}')
+
+        preprocessed_txt = preprocessing(text)
+        logging.info(f'Preprocessed Text : {preprocessed_txt}')
+
+        vectorized_txt = vectorizer(preprocessed_txt)
+        logging.info(f'Vectorized Text : {vectorized_txt}')
+
+        # Use probability-based prediction
+        pred_class, real_prob, fake_prob = get_prediction_prob(vectorized_txt)
+        logging.info(f'Prediction: {pred_class}, Real %: {real_prob}, Fake %: {fake_prob}')
+
+        data = {
+            'reviews': [text],
+            'real': 1 if pred_class == 'real' else 0,
+            'fake': 1 if pred_class == 'fake' else 0,
+            'real_percent': round(real_prob, 2),
+            'fake_percent': round(fake_prob, 2)
+        }
+    else:
+        # GET logic (empty screen initially with zeros)
+        data = {
+            'reviews': [],
+            'real': 0,
+            'fake': 0,
+            'real_percent': 0,
+            'fake_percent': 0
+        }
+
     return render_template('index.html', data=data)
 
-# @app.route('/index')
-# def index():
-#     if 'uid' not in session:
-#         return redirect(url_for('login'))
 
-#     data['reviews'] = reviews
-#     data['real'] = real
-#     data['fake'] = fake
 
-#     logging.info('===== Open Review Page =====')
-#     return render_template('index.html', data=data)
+
+
+
 
 
 @app.route('/register')
@@ -187,16 +205,7 @@ def submit_contact():
     return jsonify({"success": True})
 
 
-# @app.route('/admin')
-# def admin_dashboard():
-#     if 'user' in session:
-#         id_token = session['user']['idToken']
-#         decoded_token = auth.verify_id_token(id_token)
-#         if decoded_token.get('admin'):
-#             return render_template('admin.html')
-#         else:
-#             return "Access Denied", 403
-#     return redirect(url_for('login'))
+
 
 
 @app.route('/admin', methods=['GET'])

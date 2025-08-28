@@ -53,4 +53,12 @@ def get_prediction(vectorized_text):
     else:
         return 'real'
     
+def get_prediction_prob(vectorized_text):
+    # Assuming binary classification: 0 = real, 1 = fake
+    probs = model.predict_proba(vectorized_text)[0]  # returns [prob_real, prob_fake]
+    real_prob = probs[0] * 100  # convert to percentage
+    fake_prob = probs[1] * 100
+    # Determine the predicted class as well
+    pred_class = 'fake' if fake_prob > real_prob else 'real'
+    return pred_class, real_prob, fake_prob
 
