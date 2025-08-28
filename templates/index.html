@@ -195,6 +195,23 @@
       padding: 6px 12px;
     }
   }
+
+  .custom-alert {
+    background-color: #f44336;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    animation: fadeOut 10s forwards;
+  }
+
+  @keyframes fadeOut {
+    0%   { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }
 </style>
 
 
@@ -245,10 +262,14 @@
           </div>
 
           <div class="my-3">
-            <form method="post">
-              <textarea name="text" placeholder="Paste your review here..."></textarea>
-              <input type="submit" class="btn btn-success" value="Check Review" />
-            </form>
+
+      <div id="alertBox" style="display:none;"></div>
+
+      <form method="post" onsubmit="return validateForm()">
+        <textarea name="text" id="reviewText" placeholder="Paste your review here..."></textarea>
+        <input type="submit" class="btn btn-success" value="Check Review" />
+      </form>
+
           </div>
 
           <div class="coment-bottom bg-white p-2 px-4">
@@ -286,6 +307,29 @@ window.addEventListener('DOMContentLoaded', () => {
   `;
 });
 </script>
+
+<script>
+function validateForm() {
+  const reviewText = document.getElementById("reviewText").value.trim();
+  const alertBox = document.getElementById("alertBox");
+
+  if (reviewText === "") {
+    // show alert
+    alertBox.innerHTML = "⚠️ Please enter a review before checking.";
+    alertBox.className = "custom-alert";
+    alertBox.style.display = "block";
+
+    // hide after 10 seconds
+    setTimeout(() => {
+      alertBox.style.display = "none";
+    }, 10000);
+
+    return false; // stop form submission
+  }
+  return true; // allow form submission
+}
+</script>
+
 
 </body>
 </html>
