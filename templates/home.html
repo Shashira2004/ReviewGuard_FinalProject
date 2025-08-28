@@ -12,137 +12,200 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 
- <style>
-  body {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-  .navbar {
-    background-color: #111;
-    border-bottom: 1px solid #333;
-  }
+    .navbar {
+      background-color: #111;
+      border-bottom: 1px solid #333;
+    }
 
-  .navbar-brand,
-  .nav-link {
-    color: #fff !important;
-  }
+    .navbar-brand,
+    .nav-link {
+      color: #fff !important;
+    }
 
-  .nav-link:hover {
-    color: #0f0 !important;
-  }
+    .nav-link:hover {
+      color: #0f0 !important;
+    }
 
-  .navbar-toggler-icon {
-    background-color: #0f0 !important;
-  }
+    .navbar-toggler-icon {
+      background-color: #0f0 !important;
+    }
 
-  .hero {
-    text-align: center;
-    padding: 80px 20px 40px;
-  }
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
 
-  .hero img {
-    max-width: 180px;
-    margin-bottom: 20px;
-  }
+    .hero img {
+      max-width: 180px;
+      margin-bottom: 20px;
+    }
 
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
 
-  .hero p {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 30px;
-  }
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
 
-  .hero button {
-    padding: 12px 28px;
-    font-size: 1.2rem;
-    color: #0f0;
-    background-color: #111;
-    border: 1px solid #0f0;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
+    .hero button {
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      color: #0f0;
+      background-color: #111;
+      border: 1px solid #0f0;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
 
-  .hero button:hover {
-    background-color: #0f0;
-    color: #000;
-    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
-  }
+    .hero button:hover {
+      background-color: #0f0;
+      color: #000;
+      box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    }
 
-  .square-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 40px 0;
-  }
+    .square-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 40px 0;
+    }
 
-  .square {
-    width: 220px;
-    height: 220px;
-    background-color: #111;
-    color: #0f0;
-    margin: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    text-decoration: none;
-    border: 1px solid #0f0;
-    transition: all 0.3s ease;
-  }
+    .square {
+      width: 220px;
+      height: 220px;
+      background-color: #111;
+      color: #0f0;
+      margin: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 1px solid #0f0;
+      transition: all 0.3s ease;
+    }
 
-  .square:hover {
-    background-color: #0f0;
-    color: #000;
-    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
-  }
+    .square:hover {
+      background-color: #0f0;
+      color: #000;
+      box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    }
 
-  .square i {
-    font-size: 48px;
-    margin-bottom: 10px;
-  }
+    .square i {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
 
-  .btn-outline-primary {
-    color: #0f0;
-    border-color: #0f0;
-    transition: all 0.3s ease;
-  }
+    .btn-outline-primary {
+      color: #0f0;
+      border-color: #0f0;
+      transition: all 0.3s ease;
+    }
 
-  .btn-outline-primary:hover {
-    background-color: #0f0;
-    color: #000;
-    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
-  }
+    .btn-outline-primary:hover {
+      background-color: #0f0;
+      color: #000;
+      box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    }
 
-  .btn-primary {
-    background-color: #0f0;
-    border-color: #0f0;
-    color: #000;
-    transition: all 0.3s ease;
-  }
+    .btn-primary {
+      background-color: #0f0;
+      border-color: #0f0;
+      color: #000;
+      transition: all 0.3s ease;
+    }
 
-  .btn-primary:hover {
-    background-color: #fff;
-    color: #000;
-    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
-  }
+    .btn-primary:hover {
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    }
 
-  #logout-section img {
-    object-fit: cover;
-  }
-  
+    #logout-section img {
+      object-fit: cover;
+    }
 
-  
-</style>
+    /* News Section */
+    .news-section {
+      padding: 60px 20px;
+      background-color: #111;
+    }
 
+    .news-section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #0f0;
+    }
+
+    .news-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .news-card {
+      background-color: #000;
+      color: #fff;
+      width: 300px;
+      border: 1px solid #0f0;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .news-card-body {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-card h5 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .news-card p {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .news-card a {
+      margin-top: 10px;
+      color: #0f0;
+      text-decoration: none;
+      font-weight: bold;
+      align-self: flex-start;
+    }
+
+    .news-card a:hover {
+      color: #fff;
+    }
+  </style>
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
@@ -218,6 +281,26 @@
       </a>
     </div>
   </div>
+
+  
+<!-- News Section -->
+<section class="news-section">
+  <h2>Latest Tech News</h2>
+  <div class="news-cards">
+    {% for article in latest_news %}
+      <div class="news-card">
+          <img src="{{ article.urlToImage or url_for('static', filename='images/placeholder.png') }}" alt="News Image">
+        <div class="news-card-body">
+          <h5>{{ article.title }}</h5>
+          <p>{{ article.description or '' }}</p>
+          <a href="{{ article.url }}" target="_blank">Read more</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>

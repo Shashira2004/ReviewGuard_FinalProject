@@ -8,6 +8,12 @@ from reportlab.lib import colors
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import inch
 from flask import make_response
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+
 
 
 
@@ -27,6 +33,45 @@ app = Flask(__name__)
 
 import os
 app.secret_key = os.urandom(24)
+import requests
+import random
+
+def get_latest_it_news():
+    url = "https://newsapi.org/v2/everything"
+    params = {
+        "qInTitle": "fake OR scam OR hacking OR cybersecurity OR malware OR 'cyber attack' OR phishing",
+        "language": "en",
+        "sortBy": "publishedAt",
+        "pageSize": 50,  # fetch more to have variety
+        "apiKey": NEWS_API_KEY
+    }
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        articles = response.json().get("articles", [])
+
+        keywords = ["fake", "scam", "hacking", "cybersecurity", "malware", "cyber attack", "phishing", "fraud", "data breach"]
+
+        # Filter relevant articles
+        relevant_articles = []
+        for a in articles:
+            text = ((a.get("title") or "") + " " + (a.get("description") or "")).lower()
+            if any(k in text for k in keywords) and a.get("urlToImage"):
+                relevant_articles.append(a)
+
+        # Randomize selection
+        random.shuffle(relevant_articles)
+
+        # Limit to 8
+        return relevant_articles[:8]
+
+    return []
+
+
+
+
+
+
+
 
 
 logging.info('Flask server started...')
@@ -40,7 +85,9 @@ fake = 0
 @app.route('/')
 def home():
     logging.info('===== Open Home Page =====')
-    return render_template('home.html')  # <-- Make sure this file exists
+    latest_news = get_latest_it_news()  # fetch news
+    return render_template('home.html', latest_news=latest_news)
+
 
 # ✅ Serve the review checker page
 @app.route('/index')
